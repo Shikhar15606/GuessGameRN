@@ -15,7 +15,20 @@ const StartGameScreen = () => {
         inputContainer: {
             width: 300,
             maxWidth: "80%",
-            alignItems: "center"
+            alignItems: "center",
+            // only for ios
+            shadowColor: 'black',
+            shadowOffset: {
+                width: 0,
+                height: 2
+            },
+            shadowRadius: 6,
+            shadowOpacity: 0.26,
+            // till here
+            elevation: 5, //for android
+            backgroundColor: 'white',
+            padding: 20,
+            borderRadius: 10
         },
         buttonContainer: {
             flexDirection: 'row',
