@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
+import Colors from '../constants/colors';
+
 const Header = props => {
     return (
         <View style={styles.headerBar} >
@@ -11,7 +13,7 @@ const Header = props => {
 
 const styles = StyleSheet.create({
     headerBar: {
-        backgroundColor: "#7C4DFF",
+        backgroundColor: Colors.primary,
         width: "100%",
         height: 90,
         paddingTop: 36,
