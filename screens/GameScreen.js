@@ -1,7 +1,8 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React,{useState} from 'react';
+import {View, Text, StyleSheet, Button} from 'react-native';
 
 import NumberContainer from '../components/NumberContainer';
+import Card from '../components/Card';
 
 const generateRandomBetween = (min,max,exclude) => {
     min = Math.floor(min)
@@ -15,16 +16,31 @@ const generateRandomBetween = (min,max,exclude) => {
 }
 
 const GameScreen = props => {
-    const [currentGuess, setcurrentGuess] = useState(generateRandomBetween(1,100,this.props.userChoice))
+    const [currentGuess, setcurrentGuess] = useState(generateRandomBetween(1,100,props.userChoice))
     return (
-        <View>
+        <View style={styles.screen}>
             <Text>Opponent's Guess</Text>
             <NumberContainer>{currentGuess}</NumberContainer>
+            <Card style={styles.buttonContainer}>
+                <Button title="LOWER" onPress={()=>{}}/>
+                <Button title="UPPER" onPress={()=>{}}/>
+            </Card>
         </View>
     );
 };
 const styles = StyleSheet.create({
-    
+    screen:{
+        flex:1,
+        padding:10,
+        alignItems:'center'
+    },
+    buttonContainer:{
+        flexDirection:'row',
+        justifyContent:'space-around',
+        marginTop:20,
+        maxWidth:'80%',
+        width:300
+    }
 })
 
 export default GameScreen;
