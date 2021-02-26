@@ -35,7 +35,7 @@ const StartGameScreen = () => {
         // this will be batched by react
     }
 
-    let confirmedOutput
+let confirmedOutput
 
     if(confirmed){
         confirmedOutput = (
