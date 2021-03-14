@@ -6,6 +6,7 @@ import {
   Button,
   Alert,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -26,17 +27,17 @@ const generateRandomBetween = (min, max, exclude) => {
   }
 };
 
-const renderListItem = (guess, noOfRound) => (
-  <View key={guess} style={styles.listItem}>
-    <BodyText>#{noOfRound}</BodyText>
-    <BodyText>{guess}</BodyText>
+const renderListItem = (listLength, itemData) => (
+  <View key={itemData.item} style={styles.listItem}>
+    <BodyText>#{listLength - itemData.index}</BodyText>
+    <BodyText>{itemData.item}</BodyText>
   </View>
 );
 
 const GameScreen = props => {
   const initialGuess = generateRandomBetween(1, 100, userChoice);
   const [currentGuess, setcurrentGuess] = useState(initialGuess);
-  const [pastGuesses, setPastGuesses] = useState([initialGuess]);
+  const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
   const currentLow = useRef(1);
 
   const currentHigh = useRef(100);
@@ -68,7 +69,7 @@ const GameScreen = props => {
       currentGuess
     );
     setcurrentGuess(nextNumber);
-    setPastGuesses(pastGuesses => [nextNumber, ...pastGuesses]);
+    setPastGuesses(pastGuesses => [nextNumber.toString(), ...pastGuesses]);
   };
   return (
     <View style={styles.screen}>
@@ -83,11 +84,18 @@ const GameScreen = props => {
         </MainButton>
       </Card>
       <View style={styles.listContainer}>
-        <ScrollView contentContainerStyle={styles.list}>
+        {/* <ScrollView contentContainerStyle={styles.list}>
           {pastGuesses.map((guess, index) =>
             renderListItem(guess, pastGuesses.length - index)
           )}
-        </ScrollView>
+        </ScrollView> */}
+        {/* Flatlist wants a key as a string and not as number */}
+        <FlatList
+          keyExtractor={item => item}
+          data={pastGuesses}
+          renderItem={renderListItem.bind(this, pastGuesses.length)}
+          contentContainerStyle={styles.list}
+        ></FlatList>
       </View>
     </View>
   );
@@ -113,17 +121,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '60%',
   },
   listContainer: {
     //  for android scrollview inside a view becomes scrollable
     //  only when the view has flex : 1
     flex: 1,
-    width: '80%',
+    width: '60%',
   },
   list: {
     flexGrow: 1,
-    alignItems: 'center',
     justifyContent: 'flex-end',
   },
 });
