@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import NumberContainer from '../components/NumberContainer';
 import Card from '../components/Card';
 import TitleText from '../components/TitleText';
+import BodyText from '../components/BodyText';
 import MainButton from '../components/MainButton';
 
 const generateRandomBetween = (min, max, exclude) => {
@@ -24,6 +25,13 @@ const generateRandomBetween = (min, max, exclude) => {
     return rndNum;
   }
 };
+
+const renderListItem = (guess, noOfRound) => (
+  <View key={guess} style={styles.listItem}>
+    <BodyText>#{noOfRound}</BodyText>
+    <BodyText>{guess}</BodyText>
+  </View>
+);
 
 const GameScreen = props => {
   const initialGuess = generateRandomBetween(1, 100, userChoice);
@@ -74,13 +82,13 @@ const GameScreen = props => {
           <Ionicons name='md-add' size={24} color='white' />
         </MainButton>
       </Card>
-      <ScrollView>
-        {pastGuesses.map(guess => (
-          <View key={guess}>
-            <Text>{guess}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <View style={styles.list}>
+        <ScrollView>
+          {pastGuesses.map((guess, index) =>
+            renderListItem(guess, pastGuesses.length - index)
+          )}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -96,6 +104,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
     maxWidth: '90%',
     width: 400,
+  },
+  listItem: {
+    borderColor: '#ccc',
+    borderWidth: 1,
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  list: {
+    //  for android scrollview inside a view becomes scrollable
+    //  only when the view has flex : 1
+    flex: 1,
+    width: '80%',
   },
 });
 
