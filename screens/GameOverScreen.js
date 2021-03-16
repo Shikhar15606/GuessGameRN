@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -15,11 +15,39 @@ import Color from '../constants/colors';
 import MainButton from '../components/MainButton';
 
 const GameOverScreen = props => {
+  const [availableDeviceWidth, setavailableDeviceWidth] = useState(
+    Dimensions.get('window').width
+  );
+  const [availableDeviceHeight, setavailableDeviceHeight] = useState(
+    Dimensions.get('window').height
+  );
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setavailableDeviceWidth(Dimensions.get('window').width);
+      setavailableDeviceHeight(Dimensions.get('window').height);
+    };
+    Dimensions.addEventListener('change', updateLayout);
+    return () => {
+      // Cleanup Can Be Done Here
+      Dimensions.addEventListener('change', updateLayout);
+    };
+  });
   return (
     <ScrollView>
       <View style={styles.screen}>
-        <TitleText style={styles.titleText}>The Game is Over!</TitleText>
-        <View style={styles.imageContainer}>
+        <TitleText style={{ fontSize: availableDeviceHeight < 400 ? 16 : 20 }}>
+          The Game is Over!
+        </TitleText>
+        <View
+          style={{
+            ...styles.imageContainer,
+            marginVertical: availableDeviceHeight / 30,
+            borderRadius: (availableDeviceWidth * 0.7) / 2,
+            width: availableDeviceWidth * 0.7,
+            height: availableDeviceWidth * 0.7,
+          }}
+        >
           <Image
             style={styles.image}
             resizeMode='cover'
@@ -30,7 +58,12 @@ const GameOverScreen = props => {
             // }}
           />
         </View>
-        <View style={styles.textContainer}>
+        <View
+          style={{
+            ...styles.textContainer,
+            marginVertical: availableDeviceHeight / 60,
+          }}
+        >
           <BodyText style={styles.fulltext}>
             Your Phone needed{' '}
             <Text style={styles.highlight}>{props.guessRounds}</Text> rounds to
@@ -51,22 +84,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 10,
   },
   imageContainer: {
-    width: Dimensions.get('window').width * 0.7,
-    height: Dimensions.get('window').width * 0.7,
     borderColor: 'black',
     borderWidth: 3,
-    borderRadius: (Dimensions.get('window').width * 0.7) / 2,
     overflow: 'hidden',
-    marginVertical: Dimensions.get('window').height / 30,
   },
   image: {
     width: '100%',
     height: '100%',
-  },
-  titleText: {
-    fontSize: Dimensions.get('window').height < 400 ? 16 : 20,
   },
   highlight: {
     color: Color.primary,
@@ -74,7 +101,6 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     marginHorizontal: 30,
-    marginVertical: Dimensions.get('window').height / 60,
   },
   fulltext: {
     textAlign: 'center',
