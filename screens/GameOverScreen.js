@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, Button, Image, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Button,
+  Image,
+  Text,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 
 import TitleText from '../components/TitleText';
 import BodyText from '../components/BodyText';
@@ -8,29 +16,31 @@ import MainButton from '../components/MainButton';
 
 const GameOverScreen = props => {
   return (
-    <View style={styles.screen}>
-      <TitleText style={styles.titleText}>The Game is Over!</TitleText>
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          resizeMode='cover'
-          source={require('../assets/success.png')}
-          // source={{
-          //   uri:
-          //     'https://cdn.mos.cms.futurecdn.net/ntFmJUZ8tw3ULD3tkBaAtf-1024-80.jpg.webp',
-          // }}
-        />
+    <ScrollView>
+      <View style={styles.screen}>
+        <TitleText style={styles.titleText}>The Game is Over!</TitleText>
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            resizeMode='cover'
+            source={require('../assets/success.png')}
+            // source={{
+            //   uri:
+            //     'https://cdn.mos.cms.futurecdn.net/ntFmJUZ8tw3ULD3tkBaAtf-1024-80.jpg.webp',
+            // }}
+          />
+        </View>
+        <View style={styles.textContainer}>
+          <BodyText style={styles.fulltext}>
+            Your Phone needed{' '}
+            <Text style={styles.highlight}>{props.guessRounds}</Text> rounds to
+            guess the number{' '}
+            <Text style={styles.highlight}>{props.userChoice}</Text>
+          </BodyText>
+        </View>
+        <MainButton onPress={props.restartGame}>NEW GAME</MainButton>
       </View>
-      <View style={styles.textContainer}>
-        <BodyText style={styles.fulltext}>
-          Your Phone needed{' '}
-          <Text style={styles.highlight}>{props.guessRounds}</Text> rounds to
-          guess the number{' '}
-          <Text style={styles.highlight}>{props.userChoice}</Text>
-        </BodyText>
-      </View>
-      <MainButton onPress={props.restartGame}>NEW GAME</MainButton>
-    </View>
+    </ScrollView>
   );
 };
 // Text styles are passed on to other text components inside
@@ -43,20 +53,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageContainer: {
-    width: 300,
-    height: 300,
+    width: Dimensions.get('window').width * 0.7,
+    height: Dimensions.get('window').width * 0.7,
     borderColor: 'black',
     borderWidth: 3,
-    borderRadius: 150,
+    borderRadius: (Dimensions.get('window').width * 0.7) / 2,
     overflow: 'hidden',
-    marginVertical: 10,
+    marginVertical: Dimensions.get('window').height / 30,
   },
   image: {
     width: '100%',
     height: '100%',
   },
   titleText: {
-    fontSize: 20,
+    fontSize: Dimensions.get('window').height < 400 ? 16 : 20,
   },
   highlight: {
     color: Color.primary,
@@ -64,7 +74,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     marginHorizontal: 30,
-    marginVertical: 20,
+    marginVertical: Dimensions.get('window').height / 60,
   },
   fulltext: {
     textAlign: 'center',
