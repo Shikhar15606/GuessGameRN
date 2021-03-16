@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -24,7 +24,19 @@ const StartGameScreen = props => {
   const [enteredValue, setenteredValue] = useState('');
   const [confirmed, setconfirmed] = useState(false);
   const [selectedNumber, setselectedNumber] = useState();
-
+  const [buttonWidth, setbuttonWidth] = useState(
+    Dimensions.get('window').width / 4
+  );
+  useEffect(() => {
+    const updateLayout = () => {
+      setbuttonWidth(Dimensions.get('window').width / 4);
+    };
+    Dimensions.addEventListener('change', updateLayout);
+    return () => {
+      Dimensions.removeEventListener('change', updateLayout);
+      // so that there is only one event listener at a time
+    };
+  }, []);
   const numberInputHandler = inputText => {
     setenteredValue(inputText.replace(/[^0-9]/g, ''));
   };
@@ -92,14 +104,14 @@ const StartGameScreen = props => {
                 maxLength={2}
               />
               <View style={styles.buttonContainer}>
-                <View style={styles.button}>
+                <View style={{ width: buttonWidth }}>
                   <Button
                     title='Reset'
                     onPress={resetInputHandler}
                     color={Colors.primary}
                   ></Button>
                 </View>
-                <View style={styles.button}>
+                <View style={{ width: buttonWidth }}>
                   <Button
                     title='Confirm'
                     onPress={confirmInputHandler}
@@ -138,10 +150,6 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-  },
-  button: {
-    // width: 100,
-    width: Dimensions.get('window').width / 4,
   },
   input: {
     width: 50,
