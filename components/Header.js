@@ -6,7 +6,15 @@ import TitleText from '../components/TitleText';
 
 const Header = props => {
   return (
-    <View style={styles.headerBar}>
+    <View
+      style={{
+        ...styles.headerBar,
+        ...Platform.select({
+          ios: styles.headerBarIOS,
+          android: styles.headerBarAndroid,
+        }),
+      }}
+    >
       <TitleText style={styles.headerText}>{props.title}</TitleText>
     </View>
   );
@@ -14,13 +22,18 @@ const Header = props => {
 
 const styles = StyleSheet.create({
   headerBar: {
-    backgroundColor: Platform.OS === 'android' ? Colors.primary : white,
     width: '100%',
     height: 90,
     paddingTop: 36,
     alignItems: 'center',
-    borderBottomColor: Platform.OS === 'ios' ? '#ccc' : 'transparent',
-    borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
+  },
+  headerBarIOS: {
+    backgroundColor: 'white',
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
+  },
+  headerBarAndroid: {
+    backgroundColor: Colors.primary,
   },
   headerText: {
     color: Platform.OS === 'ios' ? Colors.primary : 'white',
