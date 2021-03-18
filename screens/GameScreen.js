@@ -55,7 +55,7 @@ const GameScreen = props => {
     Dimensions.addEventListener('change', updateLayout);
     return () => {
       // Cleanup Can Be Done Here
-      Dimensions.addEventListener('change', updateLayout);
+      Dimensions.removeEventListener('change', updateLayout);
     };
   });
   const currentHigh = useRef(100);

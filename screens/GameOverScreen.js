@@ -30,7 +30,7 @@ const GameOverScreen = props => {
     Dimensions.addEventListener('change', updateLayout);
     return () => {
       // Cleanup Can Be Done Here
-      Dimensions.addEventListener('change', updateLayout);
+      Dimensions.removeEventListener('change', updateLayout);
     };
   });
   return (

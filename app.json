@@ -2,13 +2,14 @@
   "expo": {
     "name": "GuessGame",
     "slug": "GuessGame",
+    "description": "A Guessing Game where the game tries to guess the number chosen by you with the help of hints",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#f7287b"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,6 +19,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.shikharshukla2001.guessgame",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
